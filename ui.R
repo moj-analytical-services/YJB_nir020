@@ -1,33 +1,35 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
+library(readr)
 library(shiny)
+library(shinydashboard)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+setwd("~/First_Shiny_App")
+Children <- read_csv("Children.csv")
 
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
+YOT<-unique(Children$YOT)
+Eth<-unique(Children$Ethnicity)
+Year<-unique(Children$Financial_Year)
 
-  # Sidebar with a slider input for number of bins
-  sidebarLayout(
-    sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("distPlot")
+ui <- dashboardPage(
+  dashboardHeader(title = "Asset Plus Tool"),
+  dashboardSidebar(selectInput("YOTs","Select YOT", choices = YOT),selectInput("Year","Select financial year", choices = Year) ),
+  
+  dashboardBody(
+    
+    fluidRow(valueBoxOutput(width=5,"value1")),
+    
+    fluidRow(valueBoxOutput(width=3,"value2"),valueBoxOutput(width=3,"value3"),valueBoxOutput(width=3,"value4")),
+    
+    fluidRow(box(width=8,title="Trends breakdown",status="primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot4",height ="200px"))),
+    
+    fluidRow(box(width=2,title="Gender breakdown",status = "primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot1",height ="200px")),
+             box(width=5,title="Ethnicity breakdown",status = "primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot2",height ="200px")),
+             box(width=2,title="Age breakdown",status = "primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot3",height ="200px"))
     )
+    
   )
-))
+)
+
+
+
+
+
