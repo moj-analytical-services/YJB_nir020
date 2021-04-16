@@ -1,5 +1,6 @@
 library(RColorBrewer)
 library(ggplot2)
+library(s3tools)
 
 myPalette <- brewer.pal(5, "Set1") 
 Children <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/Children.csv")
