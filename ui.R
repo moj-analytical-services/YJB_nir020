@@ -1,22 +1,26 @@
 library(shiny)
+library(shinydashboard)
 
-# Define UI for application that plots random distributions 
-shinyUI(pageWithSidebar(
+setwd("~/First_Shiny_App")
+Children <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/Children.csv")
+
+YOT<-unique(Children$YOT)
+Eth<-unique(Children$Ethnicity)
+Year<-unique(Children$Financial_Year)
+
+ui <- dashboardPage(
+  dashboardHeader(title = "Asset Plus Tool"),
+  dashboardSidebar(selectInput("YOTs","Select YOT", choices = YOT),selectInput("Year","Select financial year", choices = Year) ),
   
-  # Application title
-  headerPanel("Hello Shiny!"),
-  
-  # Sidebar with a slider input for number of observations
-  sidebarPanel(
-    sliderInput("obs", 
-                "Number of observations:", 
-                min = 1,
-                max = 1000, 
-                value = 500)
-  ),
-  
-  # Show a plot of the generated distribution
-  mainPanel(
-    plotOutput("distPlot")
+  dashboardBody(
+    
+    fluidRow(valueBoxOutput(width=5,"value1")),
+    fluidRow(valueBoxOutput(width=3,"value2"),valueBoxOutput(width=3,"value3"),valueBoxOutput(width=3,"value4")),
+    fluidRow(box(width=8,title="Trends breakdown",status="primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot4",height ="200px"))),
+    fluidRow(box(width=2,title="Gender breakdown",status = "primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot1",height ="200px")),
+             box(width=5,title="Ethnicity breakdown",status = "primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot2",height ="200px")),
+             box(width=2,title="Age breakdown",status = "primary",solidHeader = TRUE,collapsible = TRUE,plotOutput("plot3",height ="200px"))
+    )
+    
   )
-))
+)
