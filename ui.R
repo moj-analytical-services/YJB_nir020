@@ -1,9 +1,9 @@
-library(readr)
+
 library(shiny)
 library(shinydashboard)
 
 setwd("~/First_Shiny_App")
-Children <- read_csv("Children.csv")
+Children <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/Children.csv")
 
 YOT<-unique(Children$YOT)
 Eth<-unique(Children$Ethnicity)
