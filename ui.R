@@ -1,6 +1,5 @@
 library(shiny)
 
-setwd("~/First_Shiny_App")
 Children <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/Children.csv")
 
 YOT<-unique(Children$YOT)
