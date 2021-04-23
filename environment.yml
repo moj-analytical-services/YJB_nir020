@@ -208,6 +208,7 @@ dependencies:
   - r-selectr=0.4_2=r35h6115d3f_0
   - r-sessioninfo=1.1.1=r35h6115d3f_1001
   - r-shiny=1.4.0.2=r35h6115d3f_0
+  - r-shinydashboard=0.7.1=r35h6115d3f_1001
   - r-sourcetools=0.1.7=r35he1b5a44_1001
   - r-stringi=1.4.3=r35h0357c0b_2
   - r-stringr=1.4.0=r35h6115d3f_1
