@@ -1,4 +1,4 @@
-name: rstudio
+name: rstudio_
 channels:
   - conda-forge
   - r
