@@ -1,13 +1,11 @@
-library(shiny)
-library(s3tools)
 
-Children <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/Children.csv")
+Children <-s3tools::s3_path_to_full_df("alpha-yjb-stats/Children.csv")
 
 YOT<-unique(Children$YOT)
 Eth<-unique(Children$Ethnicity)
 Year<-unique(Children$Financial_Year)
 
-ui <- dashboardPage(
+ui <- shinydashboard::dashboardPage(
   dashboardHeader(title = "Asset Plus Tool"),
   dashboardSidebar(selectInput("YOTs","Select YOT", choices = YOT),selectInput("Year","Select financial year", choices = Year) ),
   

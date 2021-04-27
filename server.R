@@ -1,11 +1,11 @@
 library(RColorBrewer)
 library(shinydashboard)
 library(ggplot2)
+library(shiny)
 library(s3tools)
 
-
 myPalette <- brewer.pal(5, "Set1") 
-Children <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/Children.csv")
+Children <-s3tools::s3_path_to_full_df("alpha-yjb-stats/Children.csv")
 
 server<-function(input,output) {
   
@@ -33,7 +33,7 @@ server<-function(input,output) {
   
   output$value3 <- renderValueBox({
     
-    YOT_Pop <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/YOT_Pop.csv")
+    YOT_Pop <-s3tools::s3_path_to_full_df("alpha-yjb-stats/YOT_Pop.csv")
     Pop <- subset(YOT_Pop, YOT==input$YOTs, select = c("YOT","X2019"))
     valueBox(
       formatC(Pop$`X2019`, format="d", big.mark=',')
@@ -44,7 +44,7 @@ server<-function(input,output) {
   
   output$value4 <- renderValueBox({
     
-    YOT_Pop <- YOT_Pop <-s3tools::s3_path_to_full_df("alpha-yjb-shiny/YOT_Pop.csv")
+    YOT_Pop <- YOT_Pop <-s3tools::s3_path_to_full_df("alpha-yjb-stats/YOT_Pop.csv")
     Pop <- subset(YOT_Pop, YOT==input$YOTs, select = c("YOT","X2019"))
     Children_Filter<-subset(Children, Financial_Year== input$Year,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
     Children_Filter<-subset(Children_Filter, YOT == input$YOTs,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
