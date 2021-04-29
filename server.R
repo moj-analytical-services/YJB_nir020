@@ -57,4 +57,49 @@ server <- function(input, output, session) {
     
   })
   
+  output$plot1 <- renderPlot({
+    Children_Filter<-subset(Children, Financial_Year== input$Year,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Children_Filter<-subset(Children_Filter, YOT == input$YOTs,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    GenCounts<-aggregate(Children_Filter$Number_Children, by=list(Category=Children_Filter$Sex), FUN=sum)
+    ggplot(data = GenCounts) + 
+      geom_bar(mapping = aes(x = Category,y=x, fill = Category),stat="identity")+
+      scale_fill_hue(c = 40) +
+      theme(legend.position="none") +
+      theme(axis.text.x = element_text(face = "bold",size = 8, angle = 0),
+            axis.text.y = element_text(face = "bold",size = 8, angle = 0))+
+      labs(x = "Sex",y="Number of children")
+  })
+  
+  output$plot2 <- renderPlot({
+    Children_Filter<-subset(Children, Financial_Year== input$Year,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Children_Filter<-subset(Children_Filter, YOT == input$YOTs,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Number_YP <- sum(Children_Filter$Number_Children)
+    EthCounts<-aggregate(Children_Filter$Number_Children, by=list(Category=Children_Filter$Ethnicity_Group), FUN=sum)
+    
+    ggplot(data = EthCounts) + 
+      geom_bar(mapping = aes(x = Category,y=x, fill = Category),stat="identity")+
+      scale_fill_hue(c = 40) +
+      theme(legend.position="none") +
+      theme(axis.text.x = element_text(face = "bold",size = 8, angle = 0),
+            axis.text.y = element_text(face = "bold",size = 8, angle = 0))+
+      labs(x = "Ethnicity",y="Number of children")
+  })
+  
+  output$plot3 <- renderPlot({
+    Children_Filter<-subset(Children, Financial_Year== input$Year,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Children_Filter<-subset(Children_Filter, YOT == input$YOTs,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Number_YP <- sum(Children_Filter$Number_Children)
+    AgeCounts<-aggregate(Children_Filter$Number_Children, by=list(Category=Children_Filter$Age_Group), FUN=sum)
+    
+    ggplot(data = AgeCounts) + 
+      geom_bar(mapping = aes(x = Category,y=x, fill = Category),stat="identity")+
+      scale_fill_hue(c = 40) +
+      theme(legend.position="none") +
+      theme(axis.text.x = element_text(face = "bold",size = 8, angle = 0),
+            axis.text.y = element_text(face = "bold",size = 8, angle = 0))+
+      labs(x = "Age",y="Number of children")
+  })
+  
+  
+  
   }
