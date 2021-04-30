@@ -8,6 +8,22 @@ Children <-s3tools::s3_path_to_full_df("alpha-yjb-stats/Children.csv")
 
 server <- function(input, output, session) {
 
+  output$value4 <- renderValueBox({
+    
+    YOT_Pop <- YOT_Pop <-s3tools::s3_path_to_full_df("alpha-yjb-stats/YOT_Pop.csv")
+    Pop <- subset(YOT_Pop, YOT==input$YOTs, select = c("YOT","X2019"))
+    Children_Filter<-subset(Children, Financial_Year== input$Year,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Children_Filter<-subset(Children_Filter, YOT == input$YOTs,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    Number_YP <- sum(Children_Filter$Number_Children)
+    
+    valueBox(
+      formatC((Number_YP/Pop$`X2019`*10000), format="d", big.mark=',')
+      ,paste('Rate of children cautioned or sentenced')
+      ,icon = icon("sun",lib = "font-awesome")
+      ,color = "green")
+    
+  })
+  
   output$value1 <- renderValueBox({
     
     valueBox(
@@ -100,6 +116,13 @@ server <- function(input, output, session) {
       labs(x = "Age",y="Number of children")
   })
   
-  
+  output$plot4 <- renderPlot({
+    Children_Filter<-subset(Children, YOT == input$YOTs,select = c("Financial_Year","YOT","Age_Group","Ethnicity_Group","Sex","Number_Children"))
+    YearCount<-aggregate(Children_Filter$Number_Children, by=list(Category=Children_Filter$Financial_Year), FUN=sum)
+    
+    ggplot(data= YearCount, aes(x=Category,y=x,group=1)) + geom_line()+geom_point() +
+      labs(x = "Year", y = "Number of children")
+    
+  })
   
   }
